@@ -6,6 +6,3 @@ class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = "__all__"
-
-    def get_balance_method(self, obj):
-        return obj.get_balance()
