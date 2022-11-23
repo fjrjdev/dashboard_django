@@ -24,6 +24,7 @@ def clear_data(data_file, max_length, description):
     df["date"] = df["date"].astype(str)
     df["hour"] = df["hour"].apply(hour_format)
     df["value"] = df["value"].apply(convert_values_by_100)
+    df["owner"] = df["owner"].apply(convert_text)
     df["store"] = df["store"].apply(convert_text)
 
     return df
