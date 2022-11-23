@@ -24,15 +24,9 @@ description = [
 
 class ListCreateTransictionView(APIView):
     parser_classes = [MultiPartParser]
-    # queryset = Transaction.objects.all()
-    # serializer_class = TransactionSerializer
 
-    def get(self, request):
-        return Response("sinho")
-
-    def post(self, request, format=None):
-        print(request.data["file"])
-        file_obj = request.data["file"]
+    def post(self, request: Request, format=None) -> Response:
+        file_obj = request.data.get("file")
         temp_file = write_file(file_obj=file_obj)
         if not temp_file:
             return Response("Error")
@@ -47,7 +41,8 @@ class ListCreateTransictionView(APIView):
         for dict_item in json_list:
             instance = Transaction.objects.create(**dict_item)
             data.append(instance)
+
         serializer = TransactionSerializer(data=data, many=True)
         serializer.is_valid()
-        # print(x)
+
         return Response(serializer.data)

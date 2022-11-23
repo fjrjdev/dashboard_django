@@ -1,4 +1,5 @@
 from django.db import models
+import ipdb
 
 
 class Transaction(models.Model):
@@ -12,3 +13,15 @@ class Transaction(models.Model):
     store = models.CharField(max_length=19)
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def get_balance(self):
+        values = []
+        for transaction in Transaction.objects.all():
+            values.append(transaction)
+        minus_list = ["2", "3", "9"]
+        total = 0
+        for item in values:
+            total += item.value
+            if item.transaction in minus_list:
+                total -= item.value
+        return round(total, 2)
