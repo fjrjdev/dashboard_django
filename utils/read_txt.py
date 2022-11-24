@@ -1,14 +1,3 @@
-#  max_length = [1, 8, 10, 11, 12, 6, 14, 19]
-#         description = [
-#             "transaction",
-#             "date",
-#             "value",
-#             "cpf",
-#             "card",
-#             "hour",
-#             "owner",
-#             "store",
-#         ]
 def read_txt(data_file, max_length: list[int], description: list[str]) -> list:
     with open(data_file, "r", encoding="utf-8") as data:
         file = [item for item in data]
