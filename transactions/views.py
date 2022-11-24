@@ -50,7 +50,7 @@ class UploadTransictionView(APIView):
         serializer.is_valid()
         return Response(
             data={"status": "Data Added with sucess", "rows": len(serializer.data)},
-            status=status.HTTP_201_CREATED,
+            status=status.HTTP_200_OK,
         )
 
 

@@ -27,8 +27,11 @@ SECRET_KEY = "django-insecure-j^gl@7vs8r_8#aqn5d$p$z&nqh-lh=9!4nbp8g6v)=!=rek$g7
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
+CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 DJANGO_APPS = [
@@ -40,7 +43,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = ["rest_framework", "rest_framework.authtoken"]
+THIRD_PARTY_APPS = ["rest_framework", "rest_framework.authtoken", "corsheaders"]
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MY_APPS = ["users", "transactions"]
 
@@ -59,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "_project.urls"

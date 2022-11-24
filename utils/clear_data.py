@@ -18,10 +18,11 @@ def convert_text(string: str) -> str:
 def clear_data(data_file, max_length, description):
     txt = read_txt(data_file, max_length, description)
     df = pd.DataFrame(txt)
+    # print(df)
 
-    df["transaction"] = df["transaction"].astype(str)
     df["date"] = pd.to_datetime(df["date"], format="%Y%m%d")
     df["date"] = df["date"].astype(str)
+    df["transaction"] = df["transaction"].astype(str)
     df["hour"] = df["hour"].apply(hour_format)
     df["value"] = df["value"].apply(convert_values_by_100)
     df["owner"] = df["owner"].apply(convert_text)
