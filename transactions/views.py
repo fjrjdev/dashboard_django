@@ -1,4 +1,4 @@
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework.views import APIView, Request, Response, status
 from rest_framework.parsers import MultiPartParser
 import json
@@ -7,7 +7,7 @@ from transactions.serializers import TransactionSerializer
 
 from utils.clear_data import clear_data
 from utils.write_file import write_file
-from .utils import get_balance
+from .utils import get_balance, get_stores_in_db
 from .pagination import CustomPageNumber
 
 MAX_LENGTH = [1, 8, 10, 11, 12, 6, 14, 19]
@@ -54,7 +54,7 @@ class UploadTransictionView(APIView):
         )
 
 
-class ListCreateTransictionView(ListCreateAPIView):
+class ListAllTransictionView(ListAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
 
@@ -65,6 +65,32 @@ class ListCreateTransictionView(ListCreateAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        balance_total = get_balance(Transaction=Transaction)
+        return Response({"balance_total": balance_total, "data": serializer.data})
+
+
+class ListByStoreTransictionView(RetrieveAPIView):
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer
+    lookup_field = "store"
+
+    def get(self, request, *args, **kwargs):
+        stores = get_stores_in_db(queryset=Transaction.objects.all)
+        store_name = self.kwargs["store"]
+        if store_name.upper() not in stores:
+            return Response(
+                data={"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        self.queryset = Transaction.objects.filter(store__icontains=store_name.upper())
+        queryset = self.filter_queryset(self.get_queryset())
+        self.pagination_class = CustomPageNumber
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(data=serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
         balance_total = get_balance(Transaction=Transaction)
