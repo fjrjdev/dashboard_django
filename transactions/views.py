@@ -8,6 +8,7 @@ from transactions.serializers import TransactionSerializer
 from utils.clear_data import clear_data
 from utils.write_file import write_file
 from .utils import get_balance
+from .pagination import CustomPageNumber
 
 MAX_LENGTH = [1, 8, 10, 11, 12, 6, 14, 19]
 DESCRIPTION = [
@@ -59,7 +60,7 @@ class ListCreateTransictionView(ListCreateAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-
+        self.pagination_class = CustomPageNumber
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
