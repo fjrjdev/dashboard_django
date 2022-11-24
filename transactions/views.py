@@ -26,10 +26,13 @@ class UploadTransictionView(APIView):
     parser_classes = [MultiPartParser]
 
     def post(self, request: Request, format=None) -> Response:
-        file_obj = request.data.get("file")
-        temp_file = write_file(file_obj=file_obj)
-        if not temp_file:
-            return Response("Error")
+        file_obj = request.data.get("file", default=None)
+        if file_obj is None:
+            return Response(
+                data={"file": "This field is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        write_file(file_obj=file_obj)
 
         df = clear_data(
             data_file="media/tmp/CNAB.txt",
