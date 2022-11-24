@@ -45,7 +45,7 @@ class UploadTransictionView(APIView):
         serializer = TransactionSerializer(data=data, many=True)
         serializer.is_valid()
         return Response(
-            data={"status": "Data Added with sucess", "Rows": len(serializer.data)},
+            data={"status": "Data Added with sucess", "rows": len(serializer.data)},
             status=status.HTTP_201_CREATED,
         )
 
