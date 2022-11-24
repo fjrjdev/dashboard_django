@@ -13,3 +13,4 @@ class Transaction(models.Model):
     store = models.CharField(max_length=19)
 
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
