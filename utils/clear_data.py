@@ -18,7 +18,6 @@ def convert_text(string: str) -> str:
 def clear_data(data_file, max_length, description):
     txt = read_txt(data_file, max_length, description)
     df = pd.DataFrame(txt)
-    # print(df)
 
     df["date"] = pd.to_datetime(df["date"], format="%Y%m%d")
     df["date"] = df["date"].astype(str)

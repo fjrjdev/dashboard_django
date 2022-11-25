@@ -11,7 +11,6 @@ class CustomPageNumber(pagination.PageNumberPagination):
     page_size = 25
 
     def get_paginated_response(self, data):
-        print(self.queryset)
         balance_total = get_balance(queryset=self.queryset)
         return Response(
             OrderedDict(

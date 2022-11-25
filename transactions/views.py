@@ -81,7 +81,8 @@ class ListByStoreTransictionView(RetrieveAPIView):
         store_name = self.kwargs["store"]
         if store_name.upper() not in stores:
             return Response(
-                data={"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND
+                data={"detail": "Not found in stores list", "stores": stores},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         self.queryset = Transaction.objects.filter(store__icontains=store_name.upper())
