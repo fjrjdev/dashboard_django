@@ -8,7 +8,7 @@ from django.core.paginator import InvalidPage
 
 
 class CustomPageNumber(pagination.PageNumberPagination):
-    page_size = 25
+    page_size = 100
 
     def get_paginated_response(self, data):
         balance_total = get_balance(queryset=self.queryset)

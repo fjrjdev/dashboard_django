@@ -67,8 +67,7 @@ class ListAllTransictionView(ListAPIView):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        balance_total = get_balance(Transaction=Transaction)
-        return Response({"balance_total": balance_total, "data": serializer.data})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
 class ListByStoreTransictionView(RetrieveAPIView):
